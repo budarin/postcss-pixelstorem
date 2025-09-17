@@ -4,7 +4,7 @@ const defaultOpts = {
     exclude: [],
     mediaQueries: false,
 };
-export const pixelstorem = (opts = {}) => {
+export default function pixelstorem(opts = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
         postcssPlugin: 'pixelstorem',
@@ -33,6 +33,6 @@ export const pixelstorem = (opts = {}) => {
             }
         },
     };
-};
+}
 pixelstorem.postcss = true;
 //# sourceMappingURL=index.js.map
