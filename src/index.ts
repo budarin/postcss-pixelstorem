@@ -14,7 +14,7 @@ const defaultOpts: PixelstoremOptions = {
     mediaQueries: false,
 };
 
-export const pixelstorem = (opts: PixelstoremOptions = {}) => {
+export default function pixelstorem(opts: PixelstoremOptions = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
         postcssPlugin: 'pixelstorem',
@@ -56,6 +56,6 @@ export const pixelstorem = (opts: PixelstoremOptions = {}) => {
             }
         },
     };
-};
+}
 
 pixelstorem.postcss = true;
