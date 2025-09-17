@@ -8,6 +8,7 @@ It will convert several types of CSS notation. It is designed to be versatile by
 
 In `@budarin/postcss-pixelstorem` default mode, an input of:
 
+```css
     h1 {
         font-size: rem(32);
     }
@@ -17,9 +18,11 @@ In `@budarin/postcss-pixelstorem` default mode, an input of:
     p {
         font-size: 16px;
     }
+```
 
 will result in an output of:   
 
+```css
     h1 {
         font-size: 2rem;
     }
@@ -29,7 +32,7 @@ will result in an output of:
     p {
         font-size: 1em;
     }
-
+```
 
 ## Installation and use
 
@@ -39,11 +42,14 @@ will result in an output of:
 
 In gulpfile.js
 
+```js
     var postcss = require('gulp-postcss')
     var pixelstorem = require('@budarin/postcss-pixelstorem');
+```    
 
 Gulp task:
 
+```js
     gulp.task('css', function() {
         var plugins = [
             pixelstorem()
@@ -52,7 +58,7 @@ Gulp task:
     .pipe(postcss(plugins))
     .pipe(gulp.dest(public/css));
     });
-
+```
 
 ## Defaults
 
@@ -60,12 +66,13 @@ Gulp task:
 * Default output for `rem(<value>)`is `rem`.
 * DEfault output for `em(<value>)` is `em`.
 * Default output unit for `<value>px` is `rem`.
-* Default is to convert values in media queries.
+* Default is to convert values in media and container queries.
 
 ## Options
 
 `@budarin/postcss-pixelstorem` accepts optional settings that override default settings.
 
+```js
     gulp.task('css', function() {
         var plugins = [
           pixelstorem({
@@ -78,15 +85,20 @@ Gulp task:
         .pipe(postcss(plugins))
         .pipe(gulp.dest(public/css));
     });
+```
 
 Optional values:
-* `base: <value>` - Accepts a unitless value. Resets the base font size for conversion to rems or ems.
-* `unit: "rem" or "em"` - Accepts unit value of either `"rem"` or `"em"` as a string. All items will be output in the unit value set here, including values set by `rem(<value>)` or `em(<value>)` notation.
-* `exclude: ["declaration"]` - any declaration type to exclude from conversion, eg, `border`, `border-radius`, etc. These declarations will be excluded globally.
-* `mediaQueries: boolean` Setting this to `false` prevents conversion of values in media queries. Default value is `true`.
+* `base: <value>` - Accepts a unitless value. Resets the base font size for conversion to rems or ems. Default value is `16`.
+* `unit: "rem" or "em"` - Accepts unit value of either `"rem"` or `"em"` as a string. All items will be output in the unit value set here, including values set by `rem(<value>)` or `em(<value>)` notation. Default value is `rem`.
+* `exclude: ["declaration"]` - any declaration type to exclude from conversion, eg, `border`, `border-radius`, etc. These declarations will be excluded globally. Default value is `[]`.
+* `mediaQueries: boolean` Setting this to `false` prevents conversion of values in media and container queries. Default value is `true`.
 
 
+Links:
+
+<pre>
 [1]: http://bourbon.io/
 [2]: http://bourbon.io/docs/#px-to-em
 [3]: http://bourbon.io/docs/#px-to-rem
 [4]: http://postcss.org/
+</pre>

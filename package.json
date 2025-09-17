@@ -1,6 +1,6 @@
 {
   "name": "@budarin/postcss-pixelstorem",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A plugin for PostCSS that generates rem units from pixel units.",
   "main": "/dist/index.js",
   "type": "module",
