@@ -1,8 +1,9 @@
 {
     "name": "@budarin/postcss-pixelstorem",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "A plugin for PostCSS that generates rem units from pixel units.",
     "main": "/dist/index.js",
+    "types": "/dist/index.d.ts",
     "type": "module",
     "keywords": [
         "postcss",
@@ -24,7 +25,7 @@
         "typescript": "^5.9.2"
     },
     "scripts": {
-         "build": "tsc",
+        "build": "tsc",
         "type-check": "tsc --noEmit",
         "pnpm-install": "pnpm install",
         "upgrade-dependencies": "pnpm upgrade -i",
