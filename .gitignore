@@ -3,3 +3,4 @@ src
 .prettierrc.mjs
 .prettierignore
 tsconfig.json
+node_modules

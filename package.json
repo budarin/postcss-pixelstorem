@@ -24,8 +24,11 @@
         "typescript": "^5.9.2"
     },
     "scripts": {
-        "build": "tsc",
-        "publish-plugin": "pnpm build && pnpm publish --access=public"
+         "build": "tsc",
+        "type-check": "tsc --noEmit",
+        "pnpm-install": "pnpm install",
+        "upgrade-dependencies": "pnpm upgrade -i",
+        "publish-package": "pnpm build && pnpm publish --access=public"
     },
     "packageManager": "pnpm@10.16.1"
 }
