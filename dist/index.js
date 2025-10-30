@@ -4,7 +4,7 @@ const defaultOpts = {
     exclude: [],
     mediaQueries: false,
 };
-export default function pixelstorem(opts = {}) {
+export function pixelstorem(opts = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
         postcssPlugin: 'pixelstorem',
@@ -19,13 +19,17 @@ export default function pixelstorem(opts = {}) {
             });
         },
         AtRule(atRule) {
-            if (opts.mediaQueries && atRule.name === 'media' && atRule.params.includes('px')) {
+            if (opts.mediaQueries &&
+                atRule.name === 'media' &&
+                atRule.params.includes('px')) {
                 atRule.params = atRule.params.replace(/(\d*\.?\d+)px\b/g, (_, num) => {
                     const converted = +num / (opts.base ?? 16);
                     return `${converted}${opts.unit}`;
                 });
             }
-            if (opts.mediaQueries && atRule.name === 'container' && atRule.params.includes('px')) {
+            if (opts.mediaQueries &&
+                atRule.name === 'container' &&
+                atRule.params.includes('px')) {
                 atRule.params = atRule.params.replace(/(\d*\.?\d+)px\b/g, (_, num) => {
                     const converted = +num / (opts.base ?? 16);
                     return `${converted}${opts.unit}`;
@@ -35,4 +39,5 @@ export default function pixelstorem(opts = {}) {
     };
 }
 pixelstorem.postcss = true;
+export default pixelstorem;
 //# sourceMappingURL=index.js.map

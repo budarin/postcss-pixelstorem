@@ -5,12 +5,12 @@ interface PixelstoremOptions {
     exclude?: string[];
     mediaQueries?: boolean;
 }
-declare function pixelstorem(opts?: PixelstoremOptions): {
+export declare function pixelstorem(opts?: PixelstoremOptions): {
     postcssPlugin: string;
     Declaration(decl: Declaration): void;
     AtRule(atRule: AtRule): void;
 };
-declare namespace pixelstorem {
+export declare namespace pixelstorem {
     var postcss: boolean;
 }
 export default pixelstorem;
