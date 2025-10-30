@@ -14,7 +14,7 @@ const defaultOpts: PixelstoremOptions = {
     mediaQueries: false,
 };
 
-export default function pixelstorem(opts: PixelstoremOptions = {}) {
+export function pixelstorem(opts: PixelstoremOptions = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
         postcssPlugin: 'pixelstorem',
@@ -23,17 +23,18 @@ export default function pixelstorem(opts: PixelstoremOptions = {}) {
             if (opts.exclude?.includes(decl.prop)) return;
 
             if (!decl.value.includes('px')) return;
-            decl.value = decl.value.replace(
-                /(\d*\.?\d+)px\b/g,
-                (_, num) => {
-                    const converted = +num / (opts.base ?? 16);
-                    return `${converted}${opts.unit}`;
-                }
-            );
+            decl.value = decl.value.replace(/(\d*\.?\d+)px\b/g, (_, num) => {
+                const converted = +num / (opts.base ?? 16);
+                return `${converted}${opts.unit}`;
+            });
         },
 
         AtRule(atRule: AtRule) {
-            if (opts.mediaQueries && atRule.name === 'media' && atRule.params.includes('px')) {
+            if (
+                opts.mediaQueries &&
+                atRule.name === 'media' &&
+                atRule.params.includes('px')
+            ) {
                 atRule.params = atRule.params.replace(
                     /(\d*\.?\d+)px\b/g,
                     (_, num) => {
@@ -44,7 +45,9 @@ export default function pixelstorem(opts: PixelstoremOptions = {}) {
             }
 
             if (
-                opts.mediaQueries && atRule.name === 'container' && atRule.params.includes('px')
+                opts.mediaQueries &&
+                atRule.name === 'container' &&
+                atRule.params.includes('px')
             ) {
                 atRule.params = atRule.params.replace(
                     /(\d*\.?\d+)px\b/g,
@@ -59,3 +62,5 @@ export default function pixelstorem(opts: PixelstoremOptions = {}) {
 }
 
 pixelstorem.postcss = true;
+
+export default pixelstorem;
