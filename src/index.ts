@@ -1,4 +1,4 @@
-import type { Declaration, AtRule } from 'postcss';
+import type { Declaration, AtRule, Comment } from 'postcss';
 
 interface PixelstoremOptions {
     base?: number;
@@ -14,6 +14,15 @@ const defaultOpts: PixelstoremOptions = {
     mediaQueries: false,
 };
 
+function hasDisableComment(node: Declaration | AtRule): boolean {
+    const prevNode = node.prev();
+    if (prevNode && prevNode.type === 'comment') {
+        const comment = prevNode as Comment;
+        return comment.text.toLowerCase().includes('pxtorem-disable-next-line');
+    }
+    return false;
+}
+
 export function pixelstorem(opts: PixelstoremOptions = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
@@ -21,6 +30,7 @@ export function pixelstorem(opts: PixelstoremOptions = {}) {
 
         Declaration(decl: Declaration) {
             if (opts.exclude?.includes(decl.prop)) return;
+            if (hasDisableComment(decl)) return;
 
             if (!decl.value.includes('px')) return;
             decl.value = decl.value.replace(/(\d*\.?\d+)px\b/g, (_, num) => {
@@ -30,6 +40,8 @@ export function pixelstorem(opts: PixelstoremOptions = {}) {
         },
 
         AtRule(atRule: AtRule) {
+            if (hasDisableComment(atRule)) return;
+
             if (
                 opts.mediaQueries &&
                 atRule.name === 'media' &&

@@ -20,7 +20,7 @@ In `@budarin/postcss-pixelstorem` default mode, an input of:
     }
 ```
 
-will result in an output of:   
+will result in an output of:
 
 ```css
     h1 {
@@ -38,35 +38,56 @@ will result in an output of:
 
 @budarin/postcss-pixelstorem requires [PostCSS][4] to be installed. To install @budarin/postcss-pixelstorem:
 
-``$ npm install --save-dev @budarin/postcss-pixelstorem``
+`$ npm install --save-dev @budarin/postcss-pixelstorem`
 
 In gulpfile.js
 
 ```js
-    var postcss = require('gulp-postcss')
-    var pixelstorem = require('@budarin/postcss-pixelstorem');
-```    
+var postcss = require('gulp-postcss');
+var pixelstorem = require('@budarin/postcss-pixelstorem');
+```
 
 Gulp task:
 
 ```js
-    gulp.task('css', function() {
-        var plugins = [
-            pixelstorem()
-        ];      
+gulp.task('css', function () {
+    var plugins = [pixelstorem()];
     gulp.src('source/sass/styles.scss')
-    .pipe(postcss(plugins))
-    .pipe(gulp.dest(public/css));
-    });
+        .pipe(postcss(plugins))
+        .pipe(gulp.dest(public / css));
+});
 ```
 
 ## Defaults
 
-* Default base for conversion is `1rem = 16px`.
-* Default output for `rem(<value>)`is `rem`.
-* DEfault output for `em(<value>)` is `em`.
-* Default output unit for `<value>px` is `rem`.
-* Default is to convert values in media and container queries.
+- Default base for conversion is `1rem = 16px`.
+- Default output for `rem(<value>)`is `rem`.
+- Default output for `em(<value>)` is `em`.
+- Default output unit for `<value>px` is `rem`.
+- Default is to convert values in media and container queries.
+
+## Disabling conversion for specific lines
+
+You can disable conversion for a specific declaration or at-rule by adding a comment `/* pxtorem-disable-next-line */` before it:
+
+```css
+.example {
+    /* pxtorem-disable-next-line */
+    border-width: 1px; /* will remain 1px */
+
+    font-size: 16px; /* will be converted to 1rem */
+}
+
+/* pxtorem-disable-next-line */
+@media (min-width: 768px) {
+    /* 768px will remain unchanged */
+    .container {
+        padding: 20px; /* will be converted to 1.25rem */
+    }
+}
+```
+
+This is especially useful when you need to preserve pixel values for specific properties that should not be converted (e.g., 1px borders, media query breakpoints, etc.).
 
 ## Options
 
@@ -88,11 +109,11 @@ Gulp task:
 ```
 
 Optional values:
-* `base: <value>` - Accepts a unitless value. Resets the base font size for conversion to rems or ems. Default value is `16`.
-* `unit: "rem" or "em"` - Accepts unit value of either `"rem"` or `"em"` as a string. All items will be output in the unit value set here, including values set by `rem(<value>)` or `em(<value>)` notation. Default value is `rem`.
-* `exclude: ["declaration"]` - any declaration type to exclude from conversion, eg, `border`, `border-radius`, etc. These declarations will be excluded globally. Default value is `[]`.
-* `mediaQueries: boolean` Setting this to `false` prevents conversion of values in media and container queries. Default value is `true`.
 
+- `base: <value>` - Accepts a unitless value. Resets the base font size for conversion to rems or ems. Default value is `16`.
+- `unit: "rem" or "em"` - Accepts unit value of either `"rem"` or `"em"` as a string. All items will be output in the unit value set here, including values set by `rem(<value>)` or `em(<value>)` notation. Default value is `rem`.
+- `exclude: ["declaration"]` - any declaration type to exclude from conversion, eg, `border`, `border-radius`, etc. These declarations will be excluded globally. Default value is `[]`.
+- `mediaQueries: boolean` Setting this to `false` prevents conversion of values in media and container queries. Default value is `true`.
 
 Links:
 
