@@ -4,12 +4,22 @@ const defaultOpts = {
     exclude: [],
     mediaQueries: false,
 };
+function hasDisableComment(node) {
+    const prevNode = node.prev();
+    if (prevNode && prevNode.type === 'comment') {
+        const comment = prevNode;
+        return comment.text.toLowerCase().includes('pxtorem-disable-next-line');
+    }
+    return false;
+}
 export function pixelstorem(opts = {}) {
     opts = { ...defaultOpts, ...opts };
     return {
         postcssPlugin: 'pixelstorem',
         Declaration(decl) {
             if (opts.exclude?.includes(decl.prop))
+                return;
+            if (hasDisableComment(decl))
                 return;
             if (!decl.value.includes('px'))
                 return;
@@ -19,6 +29,8 @@ export function pixelstorem(opts = {}) {
             });
         },
         AtRule(atRule) {
+            if (hasDisableComment(atRule))
+                return;
             if (opts.mediaQueries &&
                 atRule.name === 'media' &&
                 atRule.params.includes('px')) {
